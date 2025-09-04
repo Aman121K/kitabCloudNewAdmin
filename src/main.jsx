@@ -11,8 +11,8 @@ import theme from './theme'
 import { AuthProvider } from './contexts/AuthContext'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
-    <BrowserRouter>
+  <React.StrictMode>
+    <BrowserRouter basename="/">
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AuthProvider>
@@ -31,7 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
-  // </React.StrictMode>
+  </React.StrictMode>
 )
 
 
