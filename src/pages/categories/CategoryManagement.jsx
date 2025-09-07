@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { Add, CheckCircle } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable from '../../components/common/DataTable'
 
@@ -78,7 +78,7 @@ const CategoryManagement = () => {
   const fetchCategories = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/categories')
+      const response = await api.get(API_ENDPOINTS.CATEGORIES)
       setCategories(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -98,7 +98,7 @@ const CategoryManagement = () => {
 
   const handleDelete = async (category) => {
     try {
-      await axios.delete(`/api/categories/${category.id}`)
+      await api.delete(`/api/categories/${category.id}`)
       await fetchCategories()
       return Promise.resolve()
     } catch (error) {

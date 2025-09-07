@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -60,7 +60,7 @@ const ReaderManagement = () => {
   const fetchReaders = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/readers')
+      const response = await api.get(API_ENDPOINTS.READERS)
       setReaders(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching readers:', error)
@@ -80,7 +80,7 @@ const ReaderManagement = () => {
 
   const handleDelete = async (reader) => {
     try {
-      await axios.delete(`/api/readers/${reader.id}`)
+      await api.delete(`/api/readers/${reader.id}`)
       await fetchReaders()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const ReaderManagement = () => {
 
   const handleToggleStatus = async (readerId, newStatus) => {
     try {
-      await axios.post(`/api/readers/${readerId}/status`, { status: newStatus })
+      await api.post(`/api/readers/${readerId}/status`, { status: newStatus })
       await fetchReaders()
       return Promise.resolve()
     } catch (error) {

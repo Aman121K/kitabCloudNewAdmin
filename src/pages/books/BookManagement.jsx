@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -85,7 +85,7 @@ const BookManagement = () => {
   const fetchBooks = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/books')
+      const response = await api.get(API_ENDPOINTS.BOOKS)
       setBooks(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching books:', error)
@@ -105,7 +105,7 @@ const BookManagement = () => {
 
   const handleDelete = async (book) => {
     try {
-      await axios.delete(`/api/books/${book.id}`)
+      await api.delete(`/api/books/${book.id}`)
       await fetchBooks()
       return Promise.resolve()
     } catch (error) {
@@ -116,7 +116,7 @@ const BookManagement = () => {
 
   const handleToggleStatus = async (bookId, newStatus) => {
     try {
-      await axios.post(`/api/books/${bookId}/status`, { status: newStatus })
+      await api.post(`/api/books/${bookId}/status`, { status: newStatus })
       await fetchBooks()
       return Promise.resolve()
     } catch (error) {

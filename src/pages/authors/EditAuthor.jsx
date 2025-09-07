@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import { TextFieldComponent, SwitchFieldComponent, FileUploadComponent } from '../../components/common/FormField'
 
@@ -54,7 +54,7 @@ const EditAuthor = () => {
 
   const fetchAuthor = async () => {
     try {
-      const response = await axios.get(`/api/authors/${id}`)
+      const response = await api.get(`/api/authors/${id}`)
       const author = response.data
       
       Object.keys(author).forEach(key => {
@@ -78,7 +78,7 @@ const EditAuthor = () => {
         delete data.password
       }
       
-      await axios.put(`/api/authors/${id}`, data)
+      await api.put(`/api/authors/${id}`, data)
       toast.success('Author updated successfully')
       navigate('/authors')
     } catch (error) {

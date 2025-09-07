@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -60,7 +60,7 @@ const LanguageManagement = () => {
   const fetchLanguages = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/languages')
+      const response = await api.get(API_ENDPOINTS.LANGUAGES)
       setLanguages(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching languages:', error)
@@ -80,7 +80,7 @@ const LanguageManagement = () => {
 
   const handleDelete = async (language) => {
     try {
-      await axios.delete(`/api/languages/${language.id}`)
+      await api.delete(`/api/languages/${language.id}`)
       await fetchLanguages()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const LanguageManagement = () => {
 
   const handleToggleStatus = async (languageId, newStatus) => {
     try {
-      await axios.post(`/api/languages/${languageId}/status`, { status: newStatus })
+      await api.post(`/api/languages/${languageId}/status`, { status: newStatus })
       await fetchLanguages()
       return Promise.resolve()
     } catch (error) {

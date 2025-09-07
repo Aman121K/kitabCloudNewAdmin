@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import { TextFieldComponent, SwitchFieldComponent, FileUploadComponent } from '../../components/common/FormField'
 
@@ -48,7 +48,7 @@ const AddAuthor = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await axios.post('/api/authors', data)
+      await api.post(API_ENDPOINTS.AUTHORS, data)
       toast.success('Author created successfully')
       navigate('/authors')
     } catch (error) {

@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -56,7 +56,7 @@ const PodcastManagement = () => {
   const fetchPodcasts = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/podcasts')
+      const response = await api.get(API_ENDPOINTS.PODCASTS)
       setPodcasts(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching podcasts:', error)
@@ -76,7 +76,7 @@ const PodcastManagement = () => {
 
   const handleDelete = async (podcast) => {
     try {
-      await axios.delete(`/api/podcasts/${podcast.id}`)
+      await api.delete(API_ENDPOINTS.PODCASTS + `/${podcast.id}`)
       await fetchPodcasts()
       return Promise.resolve()
     } catch (error) {
@@ -87,7 +87,7 @@ const PodcastManagement = () => {
 
   const handleToggleStatus = async (podcastId, newStatus) => {
     try {
-      await axios.post(`/api/podcasts/${podcastId}/status`, { status: newStatus })
+      await api.post(API_ENDPOINTS.PODCASTS + `/${podcastId}/status`, { status: newStatus })
       await fetchPodcasts()
       return Promise.resolve()
     } catch (error) {

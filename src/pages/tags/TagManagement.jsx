@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -60,7 +60,7 @@ const TagManagement = () => {
   const fetchTags = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/tags')
+      const response = await api.get(API_ENDPOINTS.TAGS)
       setTags(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching tags:', error)
@@ -80,7 +80,7 @@ const TagManagement = () => {
 
   const handleDelete = async (tag) => {
     try {
-      await axios.delete(`/api/tags/${tag.id}`)
+      await api.delete(`/api/tags/${tag.id}`)
       await fetchTags()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const TagManagement = () => {
 
   const handleToggleStatus = async (tagId, newStatus) => {
     try {
-      await axios.post(`/api/tags/${tagId}/status`, { status: newStatus })
+      await api.post(`/api/tags/${tagId}/status`, { status: newStatus })
       await fetchTags()
       return Promise.resolve()
     } catch (error) {

@@ -15,7 +15,7 @@ import {
   Alert
 } from '@mui/material'
 import { Save, Security, Person, Business, MenuBook } from '@mui/icons-material'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 
 const RolePermissionManagement = () => {
@@ -56,9 +56,9 @@ const RolePermissionManagement = () => {
     setLoading(true)
     try {
       const [rolesResponse, permissionsResponse, rolePermissionsResponse] = await Promise.all([
-        axios.get('/api/roles'),
-        axios.get('/api/permissions'),
-        axios.get('/api/role-permissions')
+        api.get(API_ENDPOINTS.ROLES),
+        api.get(API_ENDPOINTS.PERMISSIONS),
+        api.get(API_ENDPOINTS.ROLE_PERMISSIONS)
       ])
 
       setRoles(rolesResponse.data)
@@ -98,7 +98,7 @@ const RolePermissionManagement = () => {
   const savePermissions = async () => {
     setSaving(true)
     try {
-      await axios.post('/api/role-permissions', rolePermissions)
+      await api.post(API_ENDPOINTS.ROLE_PERMISSIONS, rolePermissions)
       toast.success('Permissions updated successfully')
     } catch (error) {
       console.error('Error saving permissions:', error)

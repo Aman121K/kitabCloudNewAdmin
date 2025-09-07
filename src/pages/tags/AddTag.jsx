@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import { 
   TextFieldComponent, 
@@ -49,7 +49,7 @@ const AddTag = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await axios.post('/api/tags', data)
+      await api.post(API_ENDPOINTS.TAGS, data)
       toast.success('Tag created successfully')
       navigate('/tags')
     } catch (error) {

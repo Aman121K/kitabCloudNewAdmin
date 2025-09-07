@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import axios from 'axios'
+import apiClient, { API_ENDPOINTS } from '../config/api'
 
 const AuthContext = createContext({})
 
@@ -8,58 +8,105 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [token, setToken] = useState(localStorage.getItem('token'))
 
+  // Set authorization header if token exists
   useEffect(() => {
-    // Quick demo setup - auto login
-    const demoUser = {
-      id: 1,
-      full_name: 'Admin User',
-      email: 'admin@kitabcloud.com',
-      role: 1
+    if (token) {
+      apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    } else {
+      delete apiClient.defaults.headers.common['Authorization']
     }
-    
-    setUser(demoUser)
-    setToken('demo-token-123')
-    localStorage.setItem('user', JSON.stringify(demoUser))
-    localStorage.setItem('token', 'demo-token-123')
-    setLoading(false)
+  }, [token])
+
+  // Check if user is authenticated on app load
+  useEffect(() => {
+    const checkAuth = async () => {
+      const savedToken = localStorage.getItem('token')
+      const savedUser = localStorage.getItem('user')
+
+      if (savedToken && savedUser) {
+        try {
+          // Verify token is still valid
+          apiClient.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`
+          const response = await apiClient.post(API_ENDPOINTS.GET_USER, { token: savedToken })
+          
+          if (response.data.user) {
+            setToken(savedToken)
+            setUser(JSON.parse(savedUser))
+          } else {
+            // Token is invalid, clear storage
+            localStorage.removeItem('token')
+            localStorage.removeItem('user')
+          }
+        } catch (error) {
+          // Token is invalid or expired, clear storage
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+          delete apiClient.defaults.headers.common['Authorization']
+        }
+      }
+      setLoading(false)
+    }
+
+    checkAuth()
   }, [])
 
   const login = async (email, password) => {
     try {
-      // For demo - accept any credentials
-      if (email === 'admin@kitabcloud.com' && password === 'admin123') {
-        const demoUser = {
-          id: 1,
-          full_name: 'Admin User',
-          email: 'admin@kitabcloud.com',
-          role: 1
-        }
+      setLoading(true)
+      console.log('Attempting login with Node API:', { email, password })
+      
+      const response = await apiClient.post(API_ENDPOINTS.LOGIN, {
+        email,
+        password
+      })
+
+      console.log('Login response:', response.data)
+
+      if (response.data.success) {
+        const { token: newToken, user: userData } = response.data
         
-        localStorage.setItem('token', 'demo-token-123')
-        localStorage.setItem('user', JSON.stringify(demoUser))
-        setToken('demo-token-123')
-        setUser(demoUser)
+        // Save to localStorage
+        localStorage.setItem('token', newToken)
+        localStorage.setItem('user', JSON.stringify(userData))
+        
+        // Update state
+        setToken(newToken)
+        setUser(userData)
+        
+        // Set apiClient header
+        apiClient.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
         
         return { success: true }
-      }
-      
-      return { 
-        success: false, 
-        message: 'Invalid credentials' 
+      } else {
+        console.error('Login failed:', response.data)
+        return { 
+          success: false, 
+          message: response.data.message || 'Login failed' 
+        }
       }
     } catch (error) {
+      console.error('Login error:', error)
+      console.error('Error response:', error.response?.data)
       return { 
         success: false, 
-        message: 'Login failed' 
+        message: error.response?.data?.message || error.message || 'Network error occurred' 
       }
+    } finally {
+      setLoading(false)
     }
   }
 
   const logout = () => {
+    // Clear localStorage
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    
+    // Clear state
     setToken(null)
     setUser(null)
+    
+    // Remove apiClient header
+    delete apiClient.defaults.headers.common['Authorization']
   }
 
   const updateUser = (userData) => {
@@ -93,6 +140,3 @@ export const useAuth = () => {
 }
 
 export default AuthContext
-
-
-

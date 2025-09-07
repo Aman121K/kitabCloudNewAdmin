@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 
 const schema = yup.object({
@@ -77,7 +77,7 @@ const AddCategory = () => {
         formData.append('category_image', data.category_image)
       }
 
-      await axios.post('/api/categories', formData, {
+      await api.post(API_ENDPOINTS.CATEGORIES, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       toast.success('Category created successfully')

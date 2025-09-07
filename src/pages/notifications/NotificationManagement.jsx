@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -60,7 +60,7 @@ const NotificationManagement = () => {
   const fetchNotifications = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/notifications')
+      const response = await api.get(API_ENDPOINTS.NOTIFICATIONS)
       setNotifications(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching notifications:', error)
@@ -80,7 +80,7 @@ const NotificationManagement = () => {
 
   const handleDelete = async (notification) => {
     try {
-      await axios.delete(`/api/notifications/${notification.id}`)
+      await api.delete(`/api/notifications/${notification.id}`)
       await fetchNotifications()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const NotificationManagement = () => {
 
   const handleToggleStatus = async (notificationId, newStatus) => {
     try {
-      await axios.post(`/api/notifications/${notificationId}/status`, { status: newStatus })
+      await api.post(`/api/notifications/${notificationId}/status`, { status: newStatus })
       await fetchNotifications()
       return Promise.resolve()
     } catch (error) {

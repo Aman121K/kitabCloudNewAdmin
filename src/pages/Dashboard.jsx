@@ -32,7 +32,7 @@ import {
   Pie,
   Cell
 } from 'recharts'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../config/api'
 import { toast } from 'react-toastify'
 
 const StatsCard = ({ title, value, icon, color = 'primary', trend }) => (
@@ -83,8 +83,8 @@ const Dashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await axios.get('/api/dashboard')
-      const data = response.data
+      const response = await api.get(API_ENDPOINTS.DASHBOARD)
+      const data = response.data.data // Updated to access nested data object
 
       setStats({
         totalRevenue: data.subscription || 0,
@@ -351,7 +351,7 @@ const Dashboard = () => {
                         {book.title}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
-                        {book.author?.name || 'Unknown Author'}
+                        {book.author_name || 'Unknown Author'}
                       </Typography>
                     </Box>
                     <Typography variant="caption" color="text.secondary">

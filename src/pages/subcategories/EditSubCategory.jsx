@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import { TextFieldComponent, SelectFieldComponent, SwitchFieldComponent } from '../../components/common/FormField'
 
@@ -52,7 +52,7 @@ const EditSubCategory = () => {
 
   const fetchSubCategory = async () => {
     try {
-      const response = await axios.get(`/api/subcategories/${id}`)
+      const response = await api.get(`/api/subcategories/${id}`)
       const subCategory = response.data
       
       Object.keys(subCategory).forEach(key => {
@@ -69,7 +69,7 @@ const EditSubCategory = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('/api/categories')
+      const response = await api.get(API_ENDPOINTS.CATEGORIES)
       setCategories(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -79,7 +79,7 @@ const EditSubCategory = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await axios.put(`/api/subcategories/${id}`, data)
+      await api.put(`/api/subcategories/${id}`, data)
       toast.success('Sub category updated successfully')
       navigate('/subcategories')
     } catch (error) {

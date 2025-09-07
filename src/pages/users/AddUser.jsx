@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 
 const schema = yup.object({
@@ -58,17 +58,19 @@ const AddUser = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await axios.get('/api/countries')
-      setCountries(response.data || [])
+      const response = await api.get(API_ENDPOINTS.COUNTRIES)
+      // Updated to access nested data array from your API response
+      setCountries(response.data.data || [])
     } catch (error) {
       console.error('Error fetching countries:', error)
+      toast.error('Failed to load countries')
     }
   }
 
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await axios.post('/api/users', data)
+      await api.post(API_ENDPOINTS.USERS, data)
       toast.success('User created successfully')
       navigate('/users')
     } catch (error) {
@@ -177,9 +179,9 @@ const AddUser = () => {
                       label="Country"
                       error={!!errors.country}
                     >
-                      {countries.map((country) => (
-                        <MenuItem key={country.id} value={country.name}>
-                          {country.name}
+                      {countries?.map((country) => (
+                        <MenuItem key={country.id} value={country.name || 'Unknown'}>
+                          {country.name || 'Unknown Country'}
                         </MenuItem>
                       ))}
                     </Select>

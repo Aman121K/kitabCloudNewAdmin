@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import { 
   TextFieldComponent, 
@@ -51,7 +51,7 @@ const AddPodcast = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await axios.post('/api/podcasts', data)
+      await api.post(API_ENDPOINTS.PODCASTS, data)
       toast.success('Podcast created successfully')
       navigate('/podcasts')
     } catch (error) {

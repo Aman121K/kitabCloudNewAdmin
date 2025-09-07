@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -63,7 +63,7 @@ const AuthorManagement = () => {
   const fetchAuthors = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/authors')
+      const response = await api.get(API_ENDPOINTS.AUTHORS)
       setAuthors(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching authors:', error)
@@ -83,7 +83,7 @@ const AuthorManagement = () => {
 
   const handleDelete = async (author) => {
     try {
-      await axios.delete(`/api/authors/${author.id}`)
+      await api.delete(`/api/authors/${author.id}`)
       await fetchAuthors()
       return Promise.resolve()
     } catch (error) {
@@ -94,7 +94,7 @@ const AuthorManagement = () => {
 
   const handleToggleStatus = async (authorId, newStatus) => {
     try {
-      await axios.post(`/api/authors/${authorId}/status`, { status: newStatus })
+      await api.post(`/api/authors/${authorId}/status`, { status: newStatus })
       await fetchAuthors()
       return Promise.resolve()
     } catch (error) {

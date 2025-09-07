@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -60,7 +60,7 @@ const UserManagement = () => {
   const fetchUsers = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/users')
+      const response = await api.get(API_ENDPOINTS.USERS)
       setUsers(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching users:', error)
@@ -80,7 +80,7 @@ const UserManagement = () => {
 
   const handleDelete = async (user) => {
     try {
-      await axios.delete(`/api/users/${user.id}`)
+      await api.delete(API_ENDPOINTS.USERS + `/${user.id}`)
       await fetchUsers() // Refresh the list
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const UserManagement = () => {
 
   const handleToggleStatus = async (userId, newStatus) => {
     try {
-      await axios.post(`/api/users/${userId}/status`, { status: newStatus })
+      await api.post(API_ENDPOINTS.USERS + `/${userId}/status`, { status: newStatus })
       await fetchUsers() // Refresh the list
       return Promise.resolve()
     } catch (error) {

@@ -17,7 +17,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 
 const schema = yup.object({
@@ -63,7 +63,7 @@ const EditUser = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get(`/api/users/${id}`)
+      const response = await api.get(`/api/users/${id}`)
       const user = response.data
       
       // Set form values
@@ -83,7 +83,7 @@ const EditUser = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await axios.get('/api/countries')
+      const response = await api.get(API_ENDPOINTS.COUNTRIES)
       setCountries(response.data || [])
     } catch (error) {
       console.error('Error fetching countries:', error)
@@ -98,7 +98,7 @@ const EditUser = () => {
         delete data.password
       }
       
-      await axios.put(`/api/users/${id}`, data)
+      await api.put(`/api/users/${id}`, data)
       toast.success('User updated successfully')
       navigate('/users')
     } catch (error) {

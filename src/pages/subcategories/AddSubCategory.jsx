@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import { TextFieldComponent, SelectFieldComponent, SwitchFieldComponent } from '../../components/common/FormField'
 
@@ -48,7 +48,7 @@ const AddSubCategory = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('/api/categories')
+      const response = await api.get(API_ENDPOINTS.CATEGORIES)
       setCategories(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -58,7 +58,7 @@ const AddSubCategory = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await axios.post('/api/subcategories', data)
+      await api.post(API_ENDPOINTS.SUBCATEGORIES, data)
       toast.success('Sub category created successfully')
       navigate('/subcategories')
     } catch (error) {

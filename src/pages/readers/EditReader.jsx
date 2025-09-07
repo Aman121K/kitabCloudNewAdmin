@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import { 
   TextFieldComponent, 
@@ -58,7 +58,7 @@ const EditReader = () => {
 
   const fetchReader = async () => {
     try {
-      const response = await axios.get(`/api/readers/${id}`)
+      const response = await api.get(`/api/readers/${id}`)
       const reader = response.data
       
       Object.keys(reader).forEach(key => {
@@ -82,7 +82,7 @@ const EditReader = () => {
         delete data.password
       }
       
-      await axios.put(`/api/readers/${id}`, data)
+      await api.put(`/api/readers/${id}`, data)
       toast.success('Reader updated successfully')
       navigate('/readers')
     } catch (error) {

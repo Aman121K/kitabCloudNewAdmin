@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import { TextFieldComponent, SwitchFieldComponent } from '../../components/common/FormField'
 
@@ -48,7 +48,7 @@ const EditCategory = () => {
 
   const fetchCategory = async () => {
     try {
-      const response = await axios.get(`/api/categories/${id}`)
+      const response = await api.get(`/api/categories/${id}`)
       const category = response.data
       
       // Set form values
@@ -67,7 +67,7 @@ const EditCategory = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await axios.put(`/api/categories/${id}`, data)
+      await api.put(`/api/categories/${id}`, data)
       toast.success('Category updated successfully')
       navigate('/categories')
     } catch (error) {

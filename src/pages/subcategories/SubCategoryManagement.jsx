@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -61,7 +61,7 @@ const SubCategoryManagement = () => {
   const fetchSubCategories = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/subcategories')
+      const response = await api.get(API_ENDPOINTS.SUBCATEGORIES)
       setSubCategories(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching sub categories:', error)
@@ -81,7 +81,7 @@ const SubCategoryManagement = () => {
 
   const handleDelete = async (subCategory) => {
     try {
-      await axios.delete(`/api/subcategories/${subCategory.id}`)
+      await api.delete(`/api/subcategories/${subCategory.id}`)
       await fetchSubCategories()
       return Promise.resolve()
     } catch (error) {
@@ -92,7 +92,7 @@ const SubCategoryManagement = () => {
 
   const handleToggleStatus = async (subCategoryId, newStatus) => {
     try {
-      await axios.post(`/api/subcategories/${subCategoryId}/status`, { status: newStatus })
+      await api.post(`/api/subcategories/${subCategoryId}/status`, { status: newStatus })
       await fetchSubCategories()
       return Promise.resolve()
     } catch (error) {

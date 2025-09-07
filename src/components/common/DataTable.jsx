@@ -92,12 +92,22 @@ const DataTable = ({
   onToggleStatus,
   title = 'Item',
   pageSize = 10,
+  totalRows = 0,
+  onPaginationChange,
+  serverSidePagination = false,
   ...props
 }) => {
   const [paginationModel, setPaginationModel] = useState({
     pageSize,
     page: 0,
   })
+
+  const handlePaginationModelChange = (newModel) => {
+    setPaginationModel(newModel)
+    if (onPaginationChange && serverSidePagination) {
+      onPaginationChange(newModel.page + 1, newModel.pageSize) // Convert to 1-based page
+    }
+  }
 
   const handleDelete = async (row) => {
     const result = await Swal.fire({
@@ -160,10 +170,12 @@ const DataTable = ({
         columns={columnsWithActions}
         loading={loading}
         paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
+        onPaginationModelChange={handlePaginationModelChange}
         pageSizeOptions={[10, 25, 50, 100]}
         checkboxSelection={false}
         disableRowSelectionOnClick
+        rowCount={serverSidePagination ? totalRows : undefined}
+        paginationMode={serverSidePagination ? 'server' : 'client'}
         slots={{
           toolbar: CustomToolbar,
         }}

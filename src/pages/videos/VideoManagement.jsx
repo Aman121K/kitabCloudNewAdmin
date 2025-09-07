@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -60,7 +60,7 @@ const VideoManagement = () => {
   const fetchVideos = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/videos')
+      const response = await api.get(API_ENDPOINTS.VIDEOS)
       setVideos(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching videos:', error)
@@ -80,7 +80,7 @@ const VideoManagement = () => {
 
   const handleDelete = async (video) => {
     try {
-      await axios.delete(`/api/videos/${video.id}`)
+      await api.delete(`/api/videos/${video.id}`)
       await fetchVideos()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const VideoManagement = () => {
 
   const handleToggleStatus = async (videoId, newStatus) => {
     try {
-      await axios.post(`/api/videos/${videoId}/status`, { status: newStatus })
+      await api.post(`/api/videos/${videoId}/status`, { status: newStatus })
       await fetchVideos()
       return Promise.resolve()
     } catch (error) {

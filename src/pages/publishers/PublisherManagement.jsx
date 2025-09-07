@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import DataTable, { StatusChip } from '../../components/common/DataTable'
 
@@ -60,7 +60,7 @@ const PublisherManagement = () => {
   const fetchPublishers = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('/api/publishers')
+      const response = await api.get(API_ENDPOINTS.PUBLISHERS)
       setPublishers(response.data.data || response.data)
     } catch (error) {
       console.error('Error fetching publishers:', error)
@@ -80,7 +80,7 @@ const PublisherManagement = () => {
 
   const handleDelete = async (publisher) => {
     try {
-      await axios.delete(`/api/publishers/${publisher.id}`)
+      await api.delete(`/api/publishers/${publisher.id}`)
       await fetchPublishers()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const PublisherManagement = () => {
 
   const handleToggleStatus = async (publisherId, newStatus) => {
     try {
-      await axios.post(`/api/publishers/${publisherId}/status`, { status: newStatus })
+      await api.post(`/api/publishers/${publisherId}/status`, { status: newStatus })
       await fetchPublishers()
       return Promise.resolve()
     } catch (error) {

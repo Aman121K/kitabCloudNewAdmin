@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import { 
   TextFieldComponent, 
@@ -55,7 +55,7 @@ const AddPublisher = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await axios.post('/api/publishers', data)
+      await api.post(API_ENDPOINTS.PUBLISHERS, data)
       toast.success('Publisher created successfully')
       navigate('/publishers')
     } catch (error) {

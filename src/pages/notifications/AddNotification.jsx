@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import axios from 'axios'
+import { api, API_ENDPOINTS } from '../../config/api'
 import { toast } from 'react-toastify'
 import { 
   TextFieldComponent, 
@@ -53,7 +53,7 @@ const AddNotification = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await axios.post('/api/notifications', data)
+      await api.post(API_ENDPOINTS.NOTIFICATIONS, data)
       toast.success('Notification created successfully')
       navigate('/notifications')
     } catch (error) {
