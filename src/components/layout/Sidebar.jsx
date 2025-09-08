@@ -25,7 +25,10 @@ import {
   ExpandMore,
   AccountBox,
   Business,
-  MenuBook
+  MenuBook,
+  Apps,
+  Campaign,
+  Schedule
 } from '@mui/icons-material'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
@@ -52,61 +55,92 @@ const Sidebar = () => {
 
   const menuItems = [
     {
-      title: 'Dashboard',
-      icon: <Dashboard />,
-      path: '/dashboard'
+      title: 'Roles Management',
+      icon: <Apps />,
+      path: '/roles'
     },
     {
       title: 'User Management',
-      icon: <People />,
+      icon: <Apps />,
       children: [
-        { title: 'All Users', path: '/users' },
-        { title: 'Add User', path: '/users/add' }
+        { title: 'List User', path: '/users' }
       ]
     },
     {
-      title: 'Content Management',
-      icon: <MenuBook />,
+      title: 'Category Management',
+      icon: <Apps />,
       children: [
-        { title: 'Categories', path: '/categories' },
-        { title: 'Sub Categories', path: '/subcategories' },
-        { title: 'Books', path: '/books' },
-        { title: 'Videos', path: '/videos' },
-        { title: 'Tags', path: '/tags' }
+        { title: 'List Categories', path: '/categories' }
+      ]
+    },
+    {
+      title: 'Sub Category Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Sub Categories', path: '/subcategories' }
       ]
     },
     {
       title: 'Author Management',
-      icon: <PersonAdd />,
+      icon: <Apps />,
       children: [
-        { title: 'All Authors', path: '/authors' },
-        { title: 'Add Author', path: '/authors/add' }
+        { title: 'List Authors', path: '/authors' }
       ]
     },
     {
       title: 'Reader Management',
-      icon: <AccountBox />,
+      icon: <Apps />,
       children: [
-        { title: 'All Readers', path: '/readers' },
-        { title: 'Add Reader', path: '/readers/add' }
+        { title: 'List Readers', path: '/readers' }
       ]
     },
     {
       title: 'Publisher Management',
-      icon: <Business />,
+      icon: <Apps />,
       children: [
-        { title: 'All Publishers', path: '/publishers' },
-        { title: 'Add Publisher', path: '/publishers/add' }
+        { title: 'List Publishers', path: '/publishers' }
       ]
     },
     {
-      title: 'System',
-      icon: <Settings />,
+      title: 'Language Management',
+      icon: <Apps />,
       children: [
-        { title: 'Languages', path: '/languages' },
-        { title: 'Notifications', path: '/notifications' },
-        { title: 'Podcasts', path: '/podcasts' },
-        { title: 'Roles & Permissions', path: '/roles' }
+        { title: 'List Languages', path: '/languages' }
+      ]
+    },
+    {
+      title: 'Book Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Books', path: '/books' }
+      ]
+    },
+    {
+      title: 'Coming Soon Book Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Coming Soon Books', path: '/coming-soon' }
+      ]
+    },
+    {
+      title: 'Videos Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Videos', path: '/videos' }
+      ]
+    },
+    {
+      title: 'Tag Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Tags', path: '/tags' }
+      ]
+    },
+    {
+      title: 'Advertisement Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Advertisements', path: '/advertisements' }
       ]
     }
   ]

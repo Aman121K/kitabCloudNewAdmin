@@ -20,10 +20,10 @@ import ReaderManagement from './pages/readers/ReaderManagement'
 import PublisherManagement from './pages/publishers/PublisherManagement'
 import LanguageManagement from './pages/languages/LanguageManagement'
 import BookManagement from './pages/books/BookManagement'
-// import ComingSoonBookManagement from './pages/comingsoon/ComingSoonBookManagement'
+import ComingSoonBookManagement from './pages/comingsoon/ComingSoonBookManagement'
 import VideoManagement from './pages/videos/VideoManagement'
 import TagManagement from './pages/tags/TagManagement'
-// import AdvertisementManagement from './pages/advertisements/AdvertisementManagement'
+import AdvertisementManagement from './pages/advertisements/AdvertisementManagement'
 // import ExpenseManagement from './pages/expenses/ExpenseManagement'
 // import ExpenseCategoryManagement from './pages/expensecategories/ExpenseCategoryManagement'
 // import BackgroundImageManagement from './pages/backgroundimages/BackgroundImageManagement'
@@ -142,11 +142,10 @@ function App() {
                 {/* <Route path="/books/add" element={<AddBook />} />
                 <Route path="/books/edit/:id" element={<EditBook />} /> */}
 
-                {/* Coming Soon Book Management - Commented out until files are created
+                {/* Coming Soon Book Management */}
                 <Route path="/coming-soon" element={<ComingSoonBookManagement />} />
-                <Route path="/coming-soon/add" element={<AddComingSoonBook />} />
-                <Route path="/coming-soon/edit/:id" element={<EditComingSoonBook />} />
-                */}
+                {/* <Route path="/coming-soon/add" element={<AddComingSoonBook />} />
+                <Route path="/coming-soon/edit/:id" element={<EditComingSoonBook />} /> */}
 
                 {/* Video Management */}
                 <Route path="/videos" element={<VideoManagement />} />
@@ -167,6 +166,11 @@ function App() {
                 <Route path="/podcasts" element={<PodcastManagement />} />
                 <Route path="/podcasts/add" element={<AddPodcast />} />
                 {/* <Route path="/podcasts/edit/:id" element={<EditPodcast />} /> */}
+
+                {/* Advertisement Management */}
+                <Route path="/advertisements" element={<AdvertisementManagement />} />
+                {/* <Route path="/advertisements/add" element={<AddAdvertisement />} />
+                <Route path="/advertisements/edit/:id" element={<EditAdvertisement />} /> */}
 
                 {/* Role Permission Management */}
                 <Route path="/roles" element={<RolePermissionManagement />} />
