@@ -27,23 +27,23 @@ import {
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const ComingSoonBookManagement = () => {
+const BackgroundImageManagement = () => {
   const navigate = useNavigate()
-  const [books, setBooks] = useState([])
+  const [backgroundImages, setBackgroundImages] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
-    fetchBooks()
+    fetchBackgroundImages()
   }, [])
 
-  const fetchBooks = async () => {
+  const fetchBackgroundImages = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/admin/coming-soon-books')
-      setBooks(response.data.data || [])
+      const response = await axios.get('/api/admin/background-images')
+      setBackgroundImages(response.data.data || [])
     } catch (error) {
-      console.error('Error fetching coming soon books:', error)
+      console.error('Error fetching background images:', error)
     } finally {
       setLoading(false)
     }
@@ -51,44 +51,44 @@ const ComingSoonBookManagement = () => {
 
   const handleStatusToggle = async (id, currentStatus) => {
     try {
-      await axios.patch(`/api/admin/coming-soon-books/${id}/status`, {
+      await axios.patch(`/api/admin/background-images/${id}/status`, {
         status: currentStatus === 1 ? 0 : 1
       })
-      fetchBooks()
+      fetchBackgroundImages()
     } catch (error) {
       console.error('Error updating status:', error)
     }
   }
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this book?')) {
+    if (window.confirm('Are you sure you want to delete this background image?')) {
       try {
-        await axios.delete(`/api/admin/coming-soon-books/${id}`)
-        fetchBooks()
+        await axios.delete(`/api/admin/background-images/${id}`)
+        fetchBackgroundImages()
       } catch (error) {
-        console.error('Error deleting book:', error)
+        console.error('Error deleting background image:', error)
       }
     }
   }
 
-  const filteredBooks = books.filter(book =>
-    book.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.author_name?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredBackgroundImages = backgroundImages.filter(bg =>
+    bg.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    bg.description?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   return (
     <Box>
       <Card>
         <CardHeader
-          title="Coming Soon Book Management"
+          title="Background Image Management"
           action={
             <Button
               variant="contained"
               startIcon={<AddIcon />}
-              onClick={() => navigate('/coming-soon/add')}
+              onClick={() => navigate('/background-images/add')}
               sx={{ bgcolor: '#4caf50', '&:hover': { bgcolor: '#45a049' } }}
             >
-              Add Coming Soon Book
+              Add Background Image
             </Button>
           }
         />
@@ -98,7 +98,7 @@ const ComingSoonBookManagement = () => {
         <Box sx={{ p: 2 }}>
           <TextField
             fullWidth
-            placeholder="Search books..."
+            placeholder="Search background images..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             InputProps={{
@@ -117,10 +117,9 @@ const ComingSoonBookManagement = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Sr No</TableCell>
-                <TableCell>Book Title</TableCell>
-                <TableCell>Author</TableCell>
-                <TableCell>Cover Image</TableCell>
-                <TableCell>Release Date</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Image</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
@@ -128,50 +127,49 @@ const ComingSoonBookManagement = () => {
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={7} align="center">
+                  <TableCell colSpan={6} align="center">
                     <Typography>Loading...</Typography>
                   </TableCell>
                 </TableRow>
-              ) : filteredBooks.length === 0 ? (
+              ) : filteredBackgroundImages.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} align="center">
-                    <Typography>No coming soon books found</Typography>
+                  <TableCell colSpan={6} align="center">
+                    <Typography>No background images found</Typography>
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredBooks.map((book, index) => (
-                  <TableRow key={book.id}>
+                filteredBackgroundImages.map((bg, index) => (
+                  <TableRow key={bg.id}>
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell>{book.title}</TableCell>
-                    <TableCell>{book.author_name}</TableCell>
+                    <TableCell>{bg.title}</TableCell>
+                    <TableCell>{bg.description}</TableCell>
                     <TableCell>
-                      {book.cover_image && (
+                      {bg.image && (
                         <img
-                          src={book.cover_image}
-                          alt="Cover"
-                          style={{ width: 50, height: 50, objectFit: 'cover' }}
+                          src={bg.image}
+                          alt="Background"
+                          style={{ width: 100, height: 60, objectFit: 'cover' }}
                         />
                       )}
                     </TableCell>
-                    <TableCell>{book.release_date}</TableCell>
                     <TableCell>
                       <Chip
-                        label={book.status === 1 ? 'Active' : 'Inactive'}
-                        color={book.status === 1 ? 'success' : 'default'}
-                        onClick={() => handleStatusToggle(book.id, book.status)}
+                        label={bg.status === 1 ? 'Active' : 'Inactive'}
+                        color={bg.status === 1 ? 'success' : 'default'}
+                        onClick={() => handleStatusToggle(bg.id, bg.status)}
                         style={{ cursor: 'pointer' }}
                       />
                     </TableCell>
                     <TableCell>
                       <IconButton
                         size="small"
-                        onClick={() => navigate(`/coming-soon/edit/${book.id}`)}
+                        onClick={() => navigate(`/background-images/edit/${bg.id}`)}
                       >
                         <EditIcon />
                       </IconButton>
                       <IconButton
                         size="small"
-                        onClick={() => handleDelete(book.id)}
+                        onClick={() => handleDelete(bg.id)}
                         color="error"
                       >
                         <DeleteIcon />
@@ -188,4 +186,4 @@ const ComingSoonBookManagement = () => {
   )
 }
 
-export default ComingSoonBookManagement
+export default BackgroundImageManagement

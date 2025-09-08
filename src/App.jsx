@@ -24,12 +24,12 @@ import ComingSoonBookManagement from './pages/comingsoon/ComingSoonBookManagemen
 import VideoManagement from './pages/videos/VideoManagement'
 import TagManagement from './pages/tags/TagManagement'
 import AdvertisementManagement from './pages/advertisements/AdvertisementManagement'
-// import ExpenseManagement from './pages/expenses/ExpenseManagement'
+import ExpenseManagement from './pages/expenses/ExpenseManagement'
 // import ExpenseCategoryManagement from './pages/expensecategories/ExpenseCategoryManagement'
-// import BackgroundImageManagement from './pages/backgroundimages/BackgroundImageManagement'
+import BackgroundImageManagement from './pages/backgroundimages/BackgroundImageManagement'
 import NotificationManagement from './pages/notifications/NotificationManagement'
 import PodcastManagement from './pages/podcasts/PodcastManagement'
-// import EpisodeManagement from './pages/episodes/EpisodeManagement'
+import EpisodeManagement from './pages/episodes/EpisodeManagement'
 // import SubscriptionManagement from './pages/subscriptions/SubscriptionManagement'
 import RolePermissionManagement from './pages/roles/RolePermissionManagement'
 
@@ -45,17 +45,17 @@ import EditAuthor from './pages/authors/EditAuthor'
 import AddReader from './pages/readers/AddReader'
 import EditReader from './pages/readers/EditReader'
 import AddPublisher from './pages/publishers/AddPublisher'
-// import EditPublisher from './pages/publishers/EditPublisher'
+import EditPublisher from './pages/publishers/EditPublisher'
 import AddLanguage from './pages/languages/AddLanguage'
-// import EditLanguage from './pages/languages/EditLanguage'
+import EditLanguage from './pages/languages/EditLanguage'
 // import AddBook from './pages/books/AddBook'
 // import EditBook from './pages/books/EditBook'
 // import AddComingSoonBook from './pages/comingsoon/AddComingSoonBook'
 // import EditComingSoonBook from './pages/comingsoon/EditComingSoonBook'
 import AddVideo from './pages/videos/AddVideo'
-// import EditVideo from './pages/videos/EditVideo'
+import EditVideo from './pages/videos/EditVideo'
 import AddTag from './pages/tags/AddTag'
-// import EditTag from './pages/tags/EditTag'
+import EditTag from './pages/tags/EditTag'
 // import AddAdvertisement from './pages/advertisements/AddAdvertisement'
 // import EditAdvertisement from './pages/advertisements/EditAdvertisement'
 // import AddExpense from './pages/expenses/AddExpense'
@@ -65,9 +65,9 @@ import AddTag from './pages/tags/AddTag'
 // import AddBackgroundImage from './pages/backgroundimages/AddBackgroundImage'
 // import EditBackgroundImage from './pages/backgroundimages/EditBackgroundImage'
 import AddNotification from './pages/notifications/AddNotification'
-// import EditNotification from './pages/notifications/EditNotification'
+import EditNotification from './pages/notifications/EditNotification'
 import AddPodcast from './pages/podcasts/AddPodcast'
-// import EditPodcast from './pages/podcasts/EditPodcast'
+import EditPodcast from './pages/podcasts/EditPodcast'
 // import AddEpisode from './pages/episodes/AddEpisode'
 // import EditEpisode from './pages/episodes/EditEpisode'
 // import AddSubscription from './pages/subscriptions/AddSubscription'
@@ -130,12 +130,12 @@ function App() {
                 {/* Publisher Management */}
                 <Route path="/publishers" element={<PublisherManagement />} />
                 <Route path="/publishers/add" element={<AddPublisher />} />
-                {/* <Route path="/publishers/edit/:id" element={<EditPublisher />} /> */}
+                <Route path="/publishers/edit/:id" element={<EditPublisher />} />
 
                 {/* Language Management */}
                 <Route path="/languages" element={<LanguageManagement />} />
                 <Route path="/languages/add" element={<AddLanguage />} />
-                {/* <Route path="/languages/edit/:id" element={<EditLanguage />} /> */}
+                <Route path="/languages/edit/:id" element={<EditLanguage />} />
 
                 {/* Book Management */}
                 <Route path="/books" element={<BookManagement />} />
@@ -150,27 +150,42 @@ function App() {
                 {/* Video Management */}
                 <Route path="/videos" element={<VideoManagement />} />
                 <Route path="/videos/add" element={<AddVideo />} />
-                {/* <Route path="/videos/edit/:id" element={<EditVideo />} /> */}
+                <Route path="/videos/edit/:id" element={<EditVideo />} />
 
                 {/* Tag Management */}
                 <Route path="/tags" element={<TagManagement />} />
                 <Route path="/tags/add" element={<AddTag />} />
-                {/* <Route path="/tags/edit/:id" element={<EditTag />} /> */}
+                <Route path="/tags/edit/:id" element={<EditTag />} />
 
                 {/* Notification Management */}
                 <Route path="/notifications" element={<NotificationManagement />} />
                 <Route path="/notifications/add" element={<AddNotification />} />
-                {/* <Route path="/notifications/edit/:id" element={<EditNotification />} /> */}
+                <Route path="/notifications/edit/:id" element={<EditNotification />} />
 
                 {/* Podcast Management */}
                 <Route path="/podcasts" element={<PodcastManagement />} />
                 <Route path="/podcasts/add" element={<AddPodcast />} />
-                {/* <Route path="/podcasts/edit/:id" element={<EditPodcast />} /> */}
+                <Route path="/podcasts/edit/:id" element={<EditPodcast />} />
 
                 {/* Advertisement Management */}
                 <Route path="/advertisements" element={<AdvertisementManagement />} />
                 {/* <Route path="/advertisements/add" element={<AddAdvertisement />} />
                 <Route path="/advertisements/edit/:id" element={<EditAdvertisement />} /> */}
+
+                {/* Episode Management */}
+                <Route path="/episodes" element={<EpisodeManagement />} />
+                {/* <Route path="/episodes/add" element={<AddEpisode />} />
+                <Route path="/episodes/edit/:id" element={<EditEpisode />} /> */}
+
+                {/* Expense Management */}
+                <Route path="/expenses" element={<ExpenseManagement />} />
+                {/* <Route path="/expenses/add" element={<AddExpense />} />
+                <Route path="/expenses/edit/:id" element={<EditExpense />} /> */}
+
+                {/* Background Image Management */}
+                <Route path="/background-images" element={<BackgroundImageManagement />} />
+                {/* <Route path="/background-images/add" element={<AddBackgroundImage />} />
+                <Route path="/background-images/edit/:id" element={<EditBackgroundImage />} /> */}
 
                 {/* Role Permission Management */}
                 <Route path="/roles" element={<RolePermissionManagement />} />

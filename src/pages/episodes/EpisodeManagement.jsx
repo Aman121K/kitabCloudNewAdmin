@@ -27,23 +27,23 @@ import {
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const ComingSoonBookManagement = () => {
+const EpisodeManagement = () => {
   const navigate = useNavigate()
-  const [books, setBooks] = useState([])
+  const [episodes, setEpisodes] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
-    fetchBooks()
+    fetchEpisodes()
   }, [])
 
-  const fetchBooks = async () => {
+  const fetchEpisodes = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/admin/coming-soon-books')
-      setBooks(response.data.data || [])
+      const response = await axios.get('/api/admin/episodes')
+      setEpisodes(response.data.data || [])
     } catch (error) {
-      console.error('Error fetching coming soon books:', error)
+      console.error('Error fetching episodes:', error)
     } finally {
       setLoading(false)
     }
@@ -51,44 +51,44 @@ const ComingSoonBookManagement = () => {
 
   const handleStatusToggle = async (id, currentStatus) => {
     try {
-      await axios.patch(`/api/admin/coming-soon-books/${id}/status`, {
+      await axios.patch(`/api/admin/episodes/${id}/status`, {
         status: currentStatus === 1 ? 0 : 1
       })
-      fetchBooks()
+      fetchEpisodes()
     } catch (error) {
       console.error('Error updating status:', error)
     }
   }
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this book?')) {
+    if (window.confirm('Are you sure you want to delete this episode?')) {
       try {
-        await axios.delete(`/api/admin/coming-soon-books/${id}`)
-        fetchBooks()
+        await axios.delete(`/api/admin/episodes/${id}`)
+        fetchEpisodes()
       } catch (error) {
-        console.error('Error deleting book:', error)
+        console.error('Error deleting episode:', error)
       }
     }
   }
 
-  const filteredBooks = books.filter(book =>
-    book.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.author_name?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredEpisodes = episodes.filter(episode =>
+    episode.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    episode.podcast_name?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   return (
     <Box>
       <Card>
         <CardHeader
-          title="Coming Soon Book Management"
+          title="Episode Management"
           action={
             <Button
               variant="contained"
               startIcon={<AddIcon />}
-              onClick={() => navigate('/coming-soon/add')}
+              onClick={() => navigate('/episodes/add')}
               sx={{ bgcolor: '#4caf50', '&:hover': { bgcolor: '#45a049' } }}
             >
-              Add Coming Soon Book
+              Add Episode
             </Button>
           }
         />
@@ -98,7 +98,7 @@ const ComingSoonBookManagement = () => {
         <Box sx={{ p: 2 }}>
           <TextField
             fullWidth
-            placeholder="Search books..."
+            placeholder="Search episodes..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             InputProps={{
@@ -117,9 +117,10 @@ const ComingSoonBookManagement = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Sr No</TableCell>
-                <TableCell>Book Title</TableCell>
-                <TableCell>Author</TableCell>
-                <TableCell>Cover Image</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Podcast</TableCell>
+                <TableCell>Duration</TableCell>
+                <TableCell>Audio File</TableCell>
                 <TableCell>Release Date</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Actions</TableCell>
@@ -128,50 +129,49 @@ const ComingSoonBookManagement = () => {
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={7} align="center">
+                  <TableCell colSpan={8} align="center">
                     <Typography>Loading...</Typography>
                   </TableCell>
                 </TableRow>
-              ) : filteredBooks.length === 0 ? (
+              ) : filteredEpisodes.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} align="center">
-                    <Typography>No coming soon books found</Typography>
+                  <TableCell colSpan={8} align="center">
+                    <Typography>No episodes found</Typography>
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredBooks.map((book, index) => (
-                  <TableRow key={book.id}>
+                filteredEpisodes.map((episode, index) => (
+                  <TableRow key={episode.id}>
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell>{book.title}</TableCell>
-                    <TableCell>{book.author_name}</TableCell>
+                    <TableCell>{episode.title}</TableCell>
+                    <TableCell>{episode.podcast_name}</TableCell>
+                    <TableCell>{episode.duration}</TableCell>
                     <TableCell>
-                      {book.cover_image && (
-                        <img
-                          src={book.cover_image}
-                          alt="Cover"
-                          style={{ width: 50, height: 50, objectFit: 'cover' }}
-                        />
+                      {episode.audio_file && (
+                        <audio controls style={{ width: 200 }}>
+                          <source src={episode.audio_file} type="audio/mpeg" />
+                        </audio>
                       )}
                     </TableCell>
-                    <TableCell>{book.release_date}</TableCell>
+                    <TableCell>{episode.release_date}</TableCell>
                     <TableCell>
                       <Chip
-                        label={book.status === 1 ? 'Active' : 'Inactive'}
-                        color={book.status === 1 ? 'success' : 'default'}
-                        onClick={() => handleStatusToggle(book.id, book.status)}
+                        label={episode.status === 1 ? 'Active' : 'Inactive'}
+                        color={episode.status === 1 ? 'success' : 'default'}
+                        onClick={() => handleStatusToggle(episode.id, episode.status)}
                         style={{ cursor: 'pointer' }}
                       />
                     </TableCell>
                     <TableCell>
                       <IconButton
                         size="small"
-                        onClick={() => navigate(`/coming-soon/edit/${book.id}`)}
+                        onClick={() => navigate(`/episodes/edit/${episode.id}`)}
                       >
                         <EditIcon />
                       </IconButton>
                       <IconButton
                         size="small"
-                        onClick={() => handleDelete(book.id)}
+                        onClick={() => handleDelete(episode.id)}
                         color="error"
                       >
                         <DeleteIcon />
@@ -188,4 +188,4 @@ const ComingSoonBookManagement = () => {
   )
 }
 
-export default ComingSoonBookManagement
+export default EpisodeManagement

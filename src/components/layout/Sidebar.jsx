@@ -8,7 +8,8 @@ import {
   ListItemText,
   Typography,
   Divider,
-  Collapse
+  Collapse,
+  Avatar
 } from '@mui/material'
 import {
   Dashboard,
@@ -142,6 +143,41 @@ const Sidebar = () => {
       children: [
         { title: 'List Advertisements', path: '/advertisements' }
       ]
+    },
+    {
+      title: 'Episode Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Episodes', path: '/episodes' }
+      ]
+    },
+    {
+      title: 'Expense Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Expenses', path: '/expenses' }
+      ]
+    },
+    {
+      title: 'Background Image Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Background Images', path: '/background-images' }
+      ]
+    },
+    {
+      title: 'Notification Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Notifications', path: '/notifications' }
+      ]
+    },
+    {
+      title: 'Podcast Management',
+      icon: <Apps />,
+      children: [
+        { title: 'List Podcasts', path: '/podcasts' }
+      ]
     }
   ]
 
@@ -227,11 +263,35 @@ const Sidebar = () => {
 
   return (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      {/* Logo/Header */}
-      <Box sx={{ p: 3, textAlign: 'center' }}>
-        <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'white' }}>
-          KitabCloud
-        </Typography>
+      {/* Logo/Header - Clickable */}
+      <Box 
+        sx={{ 
+          p: 3, 
+          textAlign: 'center',
+          cursor: 'pointer',
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.1)'
+          },
+          transition: 'background-color 0.2s'
+        }}
+        onClick={() => navigate('/dashboard')}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 1 }}>
+          <Avatar
+            src="/kitabcloud.png"
+            sx={{ 
+              width: 40, 
+              height: 40, 
+              mr: 2,
+              backgroundColor: '#705ec8'
+            }}
+          >
+            KC
+          </Avatar>
+          <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'white' }}>
+            KitabCloud
+          </Typography>
+        </Box>
         <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
           Admin Panel
         </Typography>
@@ -240,8 +300,24 @@ const Sidebar = () => {
       <Divider sx={{ borderColor: 'rgba(255,255,255,0.2)' }} />
       
       {/* Navigation Menu */}
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
-        <List>
+      <Box sx={{ 
+        flex: 1, 
+        overflow: 'auto',
+        '&::-webkit-scrollbar': {
+          width: '6px',
+        },
+        '&::-webkit-scrollbar-track': {
+          background: 'rgba(255,255,255,0.1)',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: 'rgba(255,255,255,0.3)',
+          borderRadius: '3px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          background: 'rgba(255,255,255,0.5)',
+        },
+      }}>
+        <List sx={{ pb: 2 }}>
           {menuItems.map((item, index) => renderMenuItem(item, index))}
         </List>
       </Box>

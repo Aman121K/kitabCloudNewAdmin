@@ -1,169 +1,191 @@
 import React, { useState, useEffect } from 'react'
 import {
   Box,
-  Typography,
-  Paper,
+  Card,
+  CardHeader,
   Button,
-  Chip
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+  IconButton,
+  TextField,
+  InputAdornment,
+  Typography
 } from '@mui/material'
-import { Add } from '@mui/icons-material'
+import {
+  Add as AddIcon,
+  Search as SearchIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Visibility as ViewIcon
+} from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import { api, API_ENDPOINTS } from '../../config/api'
-import { toast } from 'react-toastify'
-import DataTable, { StatusChip } from '../../components/common/DataTable'
+import axios from 'axios'
 
 const AdvertisementManagement = () => {
   const navigate = useNavigate()
   const [advertisements, setAdvertisements] = useState([])
-  const [loading, setLoading] = useState(false)
-
-  const columns = [
-    {
-      field: 'id',
-      headerName: 'ID',
-      width: 70,
-    },
-    {
-      field: 'title',
-      headerName: 'Advertisement Title',
-      width: 200,
-    },
-    {
-      field: 'type',
-      headerName: 'Type',
-      width: 120,
-      renderCell: (params) => {
-        const typeColors = {
-          'banner': 'primary',
-          'popup': 'secondary',
-          'sidebar': 'info',
-          'inline': 'success'
-        }
-        return (
-          <Chip 
-            label={params.value || 'N/A'} 
-            color={typeColors[params.value] || 'default'} 
-            size="small" 
-          />
-        )
-      }
-    },
-    {
-      field: 'position',
-      headerName: 'Position',
-      width: 120,
-    },
-    {
-      field: 'start_date',
-      headerName: 'Start Date',
-      width: 120,
-      renderCell: (params) => {
-        if (params.value) {
-          return new Date(params.value).toLocaleDateString()
-        }
-        return 'N/A'
-      }
-    },
-    {
-      field: 'end_date',
-      headerName: 'End Date',
-      width: 120,
-      renderCell: (params) => {
-        if (params.value) {
-          return new Date(params.value).toLocaleDateString()
-        }
-        return 'N/A'
-      }
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 120,
-      renderCell: (params) => <StatusChip status={params.value} />
-    },
-  ]
+  const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     fetchAdvertisements()
   }, [])
 
   const fetchAdvertisements = async () => {
-    setLoading(true)
     try {
-      const response = await api.get(API_ENDPOINTS.ADVERTISEMENTS || '/api/advertisements')
-      setAdvertisements(response.data.data || response.data)
+      setLoading(true)
+      const response = await axios.get('/api/admin/advertisements')
+      setAdvertisements(response.data.data || [])
     } catch (error) {
       console.error('Error fetching advertisements:', error)
-      toast.error('Failed to fetch advertisements')
     } finally {
       setLoading(false)
     }
   }
 
-  const handleAdd = () => {
-    navigate('/advertisements/add')
-  }
-
-  const handleEdit = (advertisement) => {
-    navigate(`/advertisements/edit/${advertisement.id}`)
-  }
-
-  const handleDelete = async (advertisement) => {
+  const handleStatusToggle = async (id, currentStatus) => {
     try {
-      await api.delete(`/api/advertisements/${advertisement.id}`)
-      await fetchAdvertisements()
-      return Promise.resolve()
+      await axios.patch(`/api/admin/advertisements/${id}/status`, {
+        status: currentStatus === 1 ? 0 : 1
+      })
+      fetchAdvertisements()
     } catch (error) {
-      console.error('Error deleting advertisement:', error)
-      return Promise.reject(error)
+      console.error('Error updating status:', error)
     }
   }
 
-  const handleToggleStatus = async (advertisementId, newStatus) => {
-    try {
-      await api.post(`/api/advertisements/${advertisementId}/status`, { status: newStatus })
-      await fetchAdvertisements()
-      return Promise.resolve()
-    } catch (error) {
-      console.error('Error updating advertisement status:', error)
-      return Promise.reject(error)
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this advertisement?')) {
+      try {
+        await axios.delete(`/api/admin/advertisements/${id}`)
+        fetchAdvertisements()
+      } catch (error) {
+        console.error('Error deleting advertisement:', error)
+      }
     }
   }
+
+  const filteredAdvertisements = advertisements.filter(ad =>
+    ad.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    ad.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
     <Box>
-      {/* Header */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Box>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 1 }}>
-            Advertisement Management
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Manage advertisements in the system
-          </Typography>
-        </Box>
-        <Button
-          variant="contained"
-          startIcon={<Add />}
-          onClick={handleAdd}
-        >
-          Add Advertisement
-        </Button>
-      </Box>
-
-      {/* Data Table */}
-      <Paper sx={{ p: 2 }}>
-        <DataTable
-          rows={advertisements}
-          columns={columns}
-          loading={loading}
-          onAdd={handleAdd}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onToggleStatus={handleToggleStatus}
-          title="Advertisement"
+      <Card>
+        <CardHeader
+          title="Advertisement Management"
+          action={
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={() => navigate('/advertisements/add')}
+              sx={{ bgcolor: '#4caf50', '&:hover': { bgcolor: '#45a049' } }}
+            >
+              Add Advertisement
+            </Button>
+          }
         />
-      </Paper>
+      </Card>
+
+      <Card sx={{ mt: 2 }}>
+        <Box sx={{ p: 2 }}>
+          <TextField
+            fullWidth
+            placeholder="Search advertisements..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ mb: 2 }}
+          />
+        </Box>
+
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Sr No</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Image</TableCell>
+                <TableCell>Link</TableCell>
+                <TableCell>Position</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={8} align="center">
+                    <Typography>Loading...</Typography>
+                  </TableCell>
+                </TableRow>
+              ) : filteredAdvertisements.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8} align="center">
+                    <Typography>No advertisements found</Typography>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredAdvertisements.map((ad, index) => (
+                  <TableRow key={ad.id}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{ad.title}</TableCell>
+                    <TableCell>{ad.description}</TableCell>
+                    <TableCell>
+                      {ad.image && (
+                        <img
+                          src={ad.image}
+                          alt="Advertisement"
+                          style={{ width: 50, height: 50, objectFit: 'cover' }}
+                        />
+                      )}
+                    </TableCell>
+                    <TableCell>{ad.link}</TableCell>
+                    <TableCell>{ad.position}</TableCell>
+                    <TableCell>
+                      <Chip
+                        label={ad.status === 1 ? 'Active' : 'Inactive'}
+                        color={ad.status === 1 ? 'success' : 'default'}
+                        onClick={() => handleStatusToggle(ad.id, ad.status)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        size="small"
+                        onClick={() => navigate(`/advertisements/edit/${ad.id}`)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        size="small"
+                        onClick={() => handleDelete(ad.id)}
+                        color="error"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
     </Box>
   )
 }
