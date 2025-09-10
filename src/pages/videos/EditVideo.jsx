@@ -42,7 +42,7 @@ const EditVideo = () => {
   const fetchVideo = async () => {
     try {
       setLoading(true)
-      const response = await axios.get(`/api/admin/videos/${id}`)
+      const response = await axios.get(`/admin/videos/${id}`)
       const video = response.data.data
       setFormData({
         book_name: video.book_name || '',
@@ -67,7 +67,7 @@ const EditVideo = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('/api/admin/categories')
+      const response = await axios.get('/admin/categories')
       setCategories(response.data.data || [])
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -76,7 +76,7 @@ const EditVideo = () => {
 
   const fetchSubCategories = async (categoryId) => {
     try {
-      const response = await axios.get(`/api/admin/subcategories?category_id=${categoryId}`)
+      const response = await axios.get(`/admin/subcategories?category_id=${categoryId}`)
       setSubCategories(response.data.data || [])
     } catch (error) {
       console.error('Error fetching subcategories:', error)
@@ -104,7 +104,7 @@ const EditVideo = () => {
     setSuccess('')
 
     try {
-      await axios.put(`/api/admin/videos/${id}`, formData)
+      await axios.put(`/admin/videos/${id}`, formData)
       setSuccess('Video updated successfully!')
       setTimeout(() => {
         navigate('/videos')

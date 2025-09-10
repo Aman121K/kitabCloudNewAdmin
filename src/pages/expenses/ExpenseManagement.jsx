@@ -40,7 +40,7 @@ const ExpenseManagement = () => {
   const fetchExpenses = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/admin/expenses')
+      const response = await axios.get('/admin/expenses')
       setExpenses(response.data.data || [])
     } catch (error) {
       console.error('Error fetching expenses:', error)
@@ -52,7 +52,7 @@ const ExpenseManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this expense?')) {
       try {
-        await axios.delete(`/api/admin/expenses/${id}`)
+        await axios.delete(`/admin/expenses/${id}`)
         fetchExpenses()
       } catch (error) {
         console.error('Error deleting expense:', error)

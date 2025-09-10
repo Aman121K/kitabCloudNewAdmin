@@ -37,7 +37,7 @@ const EditNotification = () => {
   const fetchNotification = async () => {
     try {
       setLoading(true)
-      const response = await axios.get(`/api/admin/notifications/${id}`)
+      const response = await axios.get(`/admin/notifications/${id}`)
       const notification = response.data.data
       setFormData({
         title: notification.title || '',
@@ -68,7 +68,7 @@ const EditNotification = () => {
     setSuccess('')
 
     try {
-      await axios.put(`/api/admin/notifications/${id}`, formData)
+      await axios.put(`/admin/notifications/${id}`, formData)
       setSuccess('Notification updated successfully!')
       setTimeout(() => {
         navigate('/notifications')

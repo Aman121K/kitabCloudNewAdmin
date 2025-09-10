@@ -80,7 +80,7 @@ const ReaderManagement = () => {
 
   const handleDelete = async (reader) => {
     try {
-      await api.delete(`/api/readers/${reader.id}`)
+      await api.delete(`/readers/${reader.id}`)
       await fetchReaders()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const ReaderManagement = () => {
 
   const handleToggleStatus = async (readerId, newStatus) => {
     try {
-      await api.post(`/api/readers/${readerId}/status`, { status: newStatus })
+      await api.post(`/readers/${readerId}/status`, { status: newStatus })
       await fetchReaders()
       return Promise.resolve()
     } catch (error) {

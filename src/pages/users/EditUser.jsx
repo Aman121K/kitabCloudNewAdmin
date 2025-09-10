@@ -63,7 +63,7 @@ const EditUser = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await api.get(`/api/users/${id}`)
+      const response = await api.get(`/users/${id}`)
       const user = response.data
       
       // Set form values
@@ -98,7 +98,7 @@ const EditUser = () => {
         delete data.password
       }
       
-      await api.put(`/api/users/${id}`, data)
+      await api.put(`/users/${id}`, data)
       toast.success('User updated successfully')
       navigate('/users')
     } catch (error) {

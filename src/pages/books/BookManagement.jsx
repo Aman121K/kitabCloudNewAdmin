@@ -105,7 +105,7 @@ const BookManagement = () => {
 
   const handleDelete = async (book) => {
     try {
-      await api.delete(`/api/books/${book.id}`)
+      await api.delete(`/books/${book.id}`)
       await fetchBooks()
       return Promise.resolve()
     } catch (error) {
@@ -116,7 +116,7 @@ const BookManagement = () => {
 
   const handleToggleStatus = async (bookId, newStatus) => {
     try {
-      await api.post(`/api/books/${bookId}/status`, { status: newStatus })
+      await api.post(`/books/${bookId}/status`, { status: newStatus })
       await fetchBooks()
       return Promise.resolve()
     } catch (error) {

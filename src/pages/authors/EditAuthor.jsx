@@ -54,7 +54,7 @@ const EditAuthor = () => {
 
   const fetchAuthor = async () => {
     try {
-      const response = await api.get(`/api/authors/${id}`)
+      const response = await api.get(`/authors/${id}`)
       const author = response.data
       
       Object.keys(author).forEach(key => {
@@ -78,7 +78,7 @@ const EditAuthor = () => {
         delete data.password
       }
       
-      await api.put(`/api/authors/${id}`, data)
+      await api.put(`/authors/${id}`, data)
       toast.success('Author updated successfully')
       navigate('/authors')
     } catch (error) {

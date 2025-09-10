@@ -48,7 +48,7 @@ const EditCategory = () => {
 
   const fetchCategory = async () => {
     try {
-      const response = await api.get(`/api/categories/${id}`)
+      const response = await api.get(`/categories/${id}`)
       const category = response.data
       
       // Set form values
@@ -67,7 +67,7 @@ const EditCategory = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await api.put(`/api/categories/${id}`, data)
+      await api.put(`/categories/${id}`, data)
       toast.success('Category updated successfully')
       navigate('/categories')
     } catch (error) {

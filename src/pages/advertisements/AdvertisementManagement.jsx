@@ -40,7 +40,7 @@ const AdvertisementManagement = () => {
   const fetchAdvertisements = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/admin/advertisements')
+      const response = await axios.get('/admin/advertisements')
       setAdvertisements(response.data.data || [])
     } catch (error) {
       console.error('Error fetching advertisements:', error)
@@ -51,7 +51,7 @@ const AdvertisementManagement = () => {
 
   const handleStatusToggle = async (id, currentStatus) => {
     try {
-      await axios.patch(`/api/admin/advertisements/${id}/status`, {
+      await axios.patch(`/admin/advertisements/${id}/status`, {
         status: currentStatus === 1 ? 0 : 1
       })
       fetchAdvertisements()
@@ -63,7 +63,7 @@ const AdvertisementManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this advertisement?')) {
       try {
-        await axios.delete(`/api/admin/advertisements/${id}`)
+        await axios.delete(`/admin/advertisements/${id}`)
         fetchAdvertisements()
       } catch (error) {
         console.error('Error deleting advertisement:', error)

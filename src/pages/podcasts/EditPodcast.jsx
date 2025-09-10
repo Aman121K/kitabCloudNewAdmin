@@ -45,7 +45,7 @@ const EditPodcast = () => {
   const fetchPodcast = async () => {
     try {
       setLoading(true)
-      const response = await axios.get(`/api/admin/podcasts/${id}`)
+      const response = await axios.get(`/admin/podcasts/${id}`)
       const podcast = response.data.data
       setFormData({
         name: podcast.name || '',
@@ -67,7 +67,7 @@ const EditPodcast = () => {
 
   const fetchReaders = async () => {
     try {
-      const response = await axios.get('/api/admin/readers')
+      const response = await axios.get('/admin/readers')
       setReaders(response.data.data || [])
     } catch (error) {
       console.error('Error fetching readers:', error)
@@ -76,7 +76,7 @@ const EditPodcast = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('/api/admin/categories')
+      const response = await axios.get('/admin/categories')
       setCategories(response.data.data || [])
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -98,7 +98,7 @@ const EditPodcast = () => {
     setSuccess('')
 
     try {
-      await axios.put(`/api/admin/podcasts/${id}`, formData)
+      await axios.put(`/admin/podcasts/${id}`, formData)
       setSuccess('Podcast updated successfully!')
       setTimeout(() => {
         navigate('/podcasts')

@@ -58,7 +58,7 @@ const EditReader = () => {
 
   const fetchReader = async () => {
     try {
-      const response = await api.get(`/api/readers/${id}`)
+      const response = await api.get(`/readers/${id}`)
       const reader = response.data
       
       Object.keys(reader).forEach(key => {
@@ -82,7 +82,7 @@ const EditReader = () => {
         delete data.password
       }
       
-      await api.put(`/api/readers/${id}`, data)
+      await api.put(`/readers/${id}`, data)
       toast.success('Reader updated successfully')
       navigate('/readers')
     } catch (error) {

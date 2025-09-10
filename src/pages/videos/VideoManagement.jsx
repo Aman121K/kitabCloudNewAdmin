@@ -80,7 +80,7 @@ const VideoManagement = () => {
 
   const handleDelete = async (video) => {
     try {
-      await api.delete(`/api/videos/${video.id}`)
+      await api.delete(`/videos/${video.id}`)
       await fetchVideos()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const VideoManagement = () => {
 
   const handleToggleStatus = async (videoId, newStatus) => {
     try {
-      await api.post(`/api/videos/${videoId}/status`, { status: newStatus })
+      await api.post(`/videos/${videoId}/status`, { status: newStatus })
       await fetchVideos()
       return Promise.resolve()
     } catch (error) {

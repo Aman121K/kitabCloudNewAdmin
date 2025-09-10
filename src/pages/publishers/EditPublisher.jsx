@@ -37,7 +37,7 @@ const EditPublisher = () => {
   const fetchPublisher = async () => {
     try {
       setLoading(true)
-      const response = await axios.get(`/api/admin/publishers/${id}`)
+      const response = await axios.get(`/admin/publishers/${id}`)
       const publisher = response.data.data
       setFormData({
         name: publisher.name || '',
@@ -72,7 +72,7 @@ const EditPublisher = () => {
     setSuccess('')
 
     try {
-      await axios.put(`/api/admin/publishers/${id}`, formData)
+      await axios.put(`/admin/publishers/${id}`, formData)
       setSuccess('Publisher updated successfully!')
       setTimeout(() => {
         navigate('/publishers')

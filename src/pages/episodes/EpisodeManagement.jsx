@@ -40,7 +40,7 @@ const EpisodeManagement = () => {
   const fetchEpisodes = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/admin/episodes')
+      const response = await axios.get('/admin/episodes')
       setEpisodes(response.data.data || [])
     } catch (error) {
       console.error('Error fetching episodes:', error)
@@ -51,7 +51,7 @@ const EpisodeManagement = () => {
 
   const handleStatusToggle = async (id, currentStatus) => {
     try {
-      await axios.patch(`/api/admin/episodes/${id}/status`, {
+      await axios.patch(`/admin/episodes/${id}/status`, {
         status: currentStatus === 1 ? 0 : 1
       })
       fetchEpisodes()
@@ -63,7 +63,7 @@ const EpisodeManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this episode?')) {
       try {
-        await axios.delete(`/api/admin/episodes/${id}`)
+        await axios.delete(`/admin/episodes/${id}`)
         fetchEpisodes()
       } catch (error) {
         console.error('Error deleting episode:', error)

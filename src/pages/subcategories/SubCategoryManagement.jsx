@@ -81,7 +81,7 @@ const SubCategoryManagement = () => {
 
   const handleDelete = async (subCategory) => {
     try {
-      await api.delete(`/api/subcategories/${subCategory.id}`)
+      await api.delete(`/subcategories/${subCategory.id}`)
       await fetchSubCategories()
       return Promise.resolve()
     } catch (error) {
@@ -92,7 +92,7 @@ const SubCategoryManagement = () => {
 
   const handleToggleStatus = async (subCategoryId, newStatus) => {
     try {
-      await api.post(`/api/subcategories/${subCategoryId}/status`, { status: newStatus })
+      await api.post(`/subcategories/${subCategoryId}/status`, { status: newStatus })
       await fetchSubCategories()
       return Promise.resolve()
     } catch (error) {

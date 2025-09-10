@@ -80,7 +80,7 @@ const TagManagement = () => {
 
   const handleDelete = async (tag) => {
     try {
-      await api.delete(`/api/tags/${tag.id}`)
+      await api.delete(`/tags/${tag.id}`)
       await fetchTags()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const TagManagement = () => {
 
   const handleToggleStatus = async (tagId, newStatus) => {
     try {
-      await api.post(`/api/tags/${tagId}/status`, { status: newStatus })
+      await api.post(`/tags/${tagId}/status`, { status: newStatus })
       await fetchTags()
       return Promise.resolve()
     } catch (error) {

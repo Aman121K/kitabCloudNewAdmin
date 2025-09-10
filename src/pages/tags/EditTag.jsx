@@ -31,7 +31,7 @@ const EditTag = () => {
   const fetchTag = async () => {
     try {
       setLoading(true)
-      const response = await axios.get(`/api/admin/tags/${id}`)
+      const response = await axios.get(`/admin/tags/${id}`)
       const tag = response.data.data
       setFormData({
         name: tag.name || '',
@@ -60,7 +60,7 @@ const EditTag = () => {
     setSuccess('')
 
     try {
-      await axios.put(`/api/admin/tags/${id}`, formData)
+      await axios.put(`/admin/tags/${id}`, formData)
       setSuccess('Tag updated successfully!')
       setTimeout(() => {
         navigate('/tags')

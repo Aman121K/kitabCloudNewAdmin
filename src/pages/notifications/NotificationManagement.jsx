@@ -80,7 +80,7 @@ const NotificationManagement = () => {
 
   const handleDelete = async (notification) => {
     try {
-      await api.delete(`/api/notifications/${notification.id}`)
+      await api.delete(`/notifications/${notification.id}`)
       await fetchNotifications()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const NotificationManagement = () => {
 
   const handleToggleStatus = async (notificationId, newStatus) => {
     try {
-      await api.post(`/api/notifications/${notificationId}/status`, { status: newStatus })
+      await api.post(`/notifications/${notificationId}/status`, { status: newStatus })
       await fetchNotifications()
       return Promise.resolve()
     } catch (error) {

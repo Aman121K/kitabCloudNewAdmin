@@ -52,7 +52,7 @@ const EditSubCategory = () => {
 
   const fetchSubCategory = async () => {
     try {
-      const response = await api.get(`/api/subcategories/${id}`)
+      const response = await api.get(`/subcategories/${id}`)
       const subCategory = response.data
       
       Object.keys(subCategory).forEach(key => {
@@ -79,7 +79,7 @@ const EditSubCategory = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await api.put(`/api/subcategories/${id}`, data)
+      await api.put(`/subcategories/${id}`, data)
       toast.success('Sub category updated successfully')
       navigate('/subcategories')
     } catch (error) {

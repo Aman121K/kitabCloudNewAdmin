@@ -32,11 +32,25 @@ import {
   Pie,
   Cell
 } from 'recharts'
+import { useNavigate } from 'react-router-dom'
 import { api, API_ENDPOINTS } from '../config/api'
 import { toast } from 'react-toastify'
 
-const StatsCard = ({ title, value, icon, color = 'primary', trend }) => (
-  <Card sx={{ height: '100%', position: 'relative', overflow: 'visible' }}>
+const StatsCard = ({ title, value, icon, color = 'primary', trend, onClick, clickable = false }) => (
+  <Card 
+    sx={{ 
+      height: '100%', 
+      position: 'relative', 
+      overflow: 'visible',
+      cursor: clickable ? 'pointer' : 'default',
+      transition: 'all 0.2s ease-in-out',
+      '&:hover': clickable ? {
+        transform: 'translateY(-2px)',
+        boxShadow: 3
+      } : {}
+    }}
+    onClick={clickable ? onClick : undefined}
+  >
     <CardContent>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Box>
@@ -71,6 +85,7 @@ const StatsCard = ({ title, value, icon, color = 'primary', trend }) => (
 )
 
 const Dashboard = () => {
+  const navigate = useNavigate()
   const [stats, setStats] = useState({})
   const [recentBooks, setRecentBooks] = useState([])
   const [recentAuthors, setRecentAuthors] = useState([])
@@ -111,6 +126,15 @@ const Dashboard = () => {
       setLoading(false)
     }
   }
+
+  // Navigation handlers
+  const handleNavigateToUsers = () => navigate('/users')
+  const handleNavigateToBooks = () => navigate('/books')
+  const handleNavigateToAuthors = () => navigate('/authors')
+  const handleNavigateToReaders = () => navigate('/readers')
+  const handleNavigateToPublishers = () => navigate('/publishers')
+  const handleNavigateToVideos = () => navigate('/videos')
+  const handleNavigateToPodcasts = () => navigate('/podcasts')
 
   // Sample chart data if API data is not available
   const sampleChartData = [
@@ -156,6 +180,7 @@ const Dashboard = () => {
             icon={<AccountBalance sx={{ fontSize: 24 }} />}
             color="success"
             trend="+12% from last month"
+            clickable={false}
           />
         </Grid>
         <Grid item xs={12} md={3}>
@@ -164,6 +189,8 @@ const Dashboard = () => {
             value={stats.totalBooks}
             icon={<MenuBook sx={{ fontSize: 24 }} />}
             color="primary"
+            clickable={true}
+            onClick={handleNavigateToBooks}
           />
         </Grid>
         <Grid item xs={12} md={3}>
@@ -172,6 +199,8 @@ const Dashboard = () => {
             value={stats.totalUsers}
             icon={<People sx={{ fontSize: 24 }} />}
             color="info"
+            clickable={true}
+            onClick={handleNavigateToUsers}
           />
         </Grid>
         <Grid item xs={12} md={3}>
@@ -180,6 +209,8 @@ const Dashboard = () => {
             value={stats.totalAuthors}
             icon={<People sx={{ fontSize: 24 }} />}
             color="warning"
+            clickable={true}
+            onClick={handleNavigateToAuthors}
           />
         </Grid>
       </Grid>
@@ -192,6 +223,8 @@ const Dashboard = () => {
             value={stats.totalReaders}
             icon={<People sx={{ fontSize: 24 }} />}
             color="primary"
+            clickable={true}
+            onClick={handleNavigateToReaders}
           />
         </Grid>
         <Grid item xs={12} md={3}>
@@ -200,6 +233,8 @@ const Dashboard = () => {
             value={stats.totalPublishers}
             icon={<People sx={{ fontSize: 24 }} />}
             color="secondary"
+            clickable={true}
+            onClick={handleNavigateToPublishers}
           />
         </Grid>
         <Grid item xs={12} md={3}>
@@ -208,6 +243,8 @@ const Dashboard = () => {
             value={stats.totalVideos}
             icon={<VideoLibrary sx={{ fontSize: 24 }} />}
             color="error"
+            clickable={true}
+            onClick={handleNavigateToVideos}
           />
         </Grid>
         <Grid item xs={12} md={3}>
@@ -216,6 +253,8 @@ const Dashboard = () => {
             value={stats.totalPodcasts}
             icon={<Podcasts sx={{ fontSize: 24 }} />}
             color="info"
+            clickable={true}
+            onClick={handleNavigateToPodcasts}
           />
         </Grid>
       </Grid>
@@ -228,6 +267,8 @@ const Dashboard = () => {
             value={stats.audioBooks}
             icon={<MenuBook sx={{ fontSize: 24 }} />}
             color="success"
+            clickable={true}
+            onClick={handleNavigateToBooks}
           />
         </Grid>
         <Grid item xs={12} md={3}>
@@ -236,6 +277,8 @@ const Dashboard = () => {
             value={stats.eBooks}
             icon={<MenuBook sx={{ fontSize: 24 }} />}
             color="warning"
+            clickable={true}
+            onClick={handleNavigateToBooks}
           />
         </Grid>
         <Grid item xs={12} md={3}>
@@ -244,6 +287,7 @@ const Dashboard = () => {
             value={stats.androidUsers}
             icon={<Android sx={{ fontSize: 24 }} />}
             color="success"
+            clickable={false}
           />
         </Grid>
         <Grid item xs={12} md={3}>
@@ -252,6 +296,7 @@ const Dashboard = () => {
             value={stats.iosUsers}
             icon={<Apple sx={{ fontSize: 24 }} />}
             color="info"
+            clickable={false}
           />
         </Grid>
       </Grid>
@@ -329,7 +374,18 @@ const Dashboard = () => {
 
         {/* Recent Books */}
         <Grid item xs={12} lg={6}>
-          <Paper sx={{ p: 3 }}>
+          <Paper 
+            sx={{ 
+              p: 3, 
+              cursor: 'pointer',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: 3
+              }
+            }}
+            onClick={handleNavigateToBooks}
+          >
             <Typography variant="h6" sx={{ mb: 3 }}>
               Recent Books
             </Typography>
@@ -368,7 +424,18 @@ const Dashboard = () => {
 
         {/* Recent Authors */}
         <Grid item xs={12} lg={6}>
-          <Paper sx={{ p: 3 }}>
+          <Paper 
+            sx={{ 
+              p: 3, 
+              cursor: 'pointer',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: 3
+              }
+            }}
+            onClick={handleNavigateToAuthors}
+          >
             <Typography variant="h6" sx={{ mb: 3 }}>
               Recent Authors
             </Typography>

@@ -32,7 +32,7 @@ const EditLanguage = () => {
   const fetchLanguage = async () => {
     try {
       setLoading(true)
-      const response = await axios.get(`/api/admin/languages/${id}`)
+      const response = await axios.get(`/admin/languages/${id}`)
       const language = response.data.data
       setFormData({
         name: language.name || '',
@@ -62,7 +62,7 @@ const EditLanguage = () => {
     setSuccess('')
 
     try {
-      await axios.put(`/api/admin/languages/${id}`, formData)
+      await axios.put(`/admin/languages/${id}`, formData)
       setSuccess('Language updated successfully!')
       setTimeout(() => {
         navigate('/languages')

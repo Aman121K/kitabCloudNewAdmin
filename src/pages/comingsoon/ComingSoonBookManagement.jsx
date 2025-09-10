@@ -40,7 +40,7 @@ const ComingSoonBookManagement = () => {
   const fetchBooks = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/admin/coming-soon-books')
+      const response = await axios.get('/admin/coming-soon-books')
       setBooks(response.data.data || [])
     } catch (error) {
       console.error('Error fetching coming soon books:', error)
@@ -51,7 +51,7 @@ const ComingSoonBookManagement = () => {
 
   const handleStatusToggle = async (id, currentStatus) => {
     try {
-      await axios.patch(`/api/admin/coming-soon-books/${id}/status`, {
+      await axios.patch(`/admin/coming-soon-books/${id}/status`, {
         status: currentStatus === 1 ? 0 : 1
       })
       fetchBooks()
@@ -63,7 +63,7 @@ const ComingSoonBookManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this book?')) {
       try {
-        await axios.delete(`/api/admin/coming-soon-books/${id}`)
+        await axios.delete(`/admin/coming-soon-books/${id}`)
         fetchBooks()
       } catch (error) {
         console.error('Error deleting book:', error)

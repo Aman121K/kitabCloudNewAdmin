@@ -40,7 +40,7 @@ const BackgroundImageManagement = () => {
   const fetchBackgroundImages = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/admin/background-images')
+      const response = await axios.get('/admin/background-images')
       setBackgroundImages(response.data.data || [])
     } catch (error) {
       console.error('Error fetching background images:', error)
@@ -51,7 +51,7 @@ const BackgroundImageManagement = () => {
 
   const handleStatusToggle = async (id, currentStatus) => {
     try {
-      await axios.patch(`/api/admin/background-images/${id}/status`, {
+      await axios.patch(`/admin/background-images/${id}/status`, {
         status: currentStatus === 1 ? 0 : 1
       })
       fetchBackgroundImages()
@@ -63,7 +63,7 @@ const BackgroundImageManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this background image?')) {
       try {
-        await axios.delete(`/api/admin/background-images/${id}`)
+        await axios.delete(`/admin/background-images/${id}`)
         fetchBackgroundImages()
       } catch (error) {
         console.error('Error deleting background image:', error)
