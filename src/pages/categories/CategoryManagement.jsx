@@ -98,7 +98,7 @@ const CategoryManagement = () => {
 
   const handleDelete = async (category) => {
     try {
-      await api.delete(`/categories/${category.id}`)
+      await api.delete(`/admin/categories/${category.id}`)
       await fetchCategories()
       return Promise.resolve()
     } catch (error) {

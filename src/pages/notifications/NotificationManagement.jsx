@@ -91,7 +91,7 @@ const NotificationManagement = () => {
 
   const handleToggleStatus = async (notificationId, newStatus) => {
     try {
-      await api.post(`/notifications/${notificationId}/status`, { status: newStatus })
+      await api.post(`/admin/notifications/${notificationId}/status`, { status: newStatus })
       await fetchNotifications()
       return Promise.resolve()
     } catch (error) {

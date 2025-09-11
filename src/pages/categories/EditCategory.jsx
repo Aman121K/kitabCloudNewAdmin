@@ -48,13 +48,24 @@ const EditCategory = () => {
 
   const fetchCategory = async () => {
     try {
-      const response = await api.get(`/categories/${id}`)
-      const category = response.data
+      const response = await api.get(`/admin/categories/${id}`)
+      // Extract category data from nested response structure
+      const category = response.data.data || response.data
       
-      // Set form values
-      Object.keys(category).forEach(key => {
-        setValue(key, category[key])
+      console.log('Fetched category data:', category) // Debug log
+      
+      // Set form values with proper field mapping
+      const formData = {
+        category_name: category.category_name || '',
+        description: category.description || '',
+        status: category.status === 1 ? true : false
+      }
+      
+      // Set each form field
+      Object.keys(formData).forEach(key => {
+        setValue(key, formData[key])
       })
+      
     } catch (error) {
       console.error('Error fetching category:', error)
       toast.error('Failed to fetch category details')
@@ -67,7 +78,7 @@ const EditCategory = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      await api.put(`/categories/${id}`, data)
+      await api.put(`/admin/categories/${id}`, data)
       toast.success('Category updated successfully')
       navigate('/categories')
     } catch (error) {

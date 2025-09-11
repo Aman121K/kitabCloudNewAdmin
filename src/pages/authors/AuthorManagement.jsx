@@ -83,7 +83,7 @@ const AuthorManagement = () => {
 
   const handleDelete = async (author) => {
     try {
-      await api.delete(`/authors/${author.id}`)
+      await api.delete(`/admin/authors/${author.id}`)
       await fetchAuthors()
       return Promise.resolve()
     } catch (error) {
@@ -94,7 +94,7 @@ const AuthorManagement = () => {
 
   const handleToggleStatus = async (authorId, newStatus) => {
     try {
-      await api.post(`/authors/${authorId}/status`, { status: newStatus })
+      await api.post(`/admin/authors/${authorId}/status`, { status: newStatus })
       await fetchAuthors()
       return Promise.resolve()
     } catch (error) {

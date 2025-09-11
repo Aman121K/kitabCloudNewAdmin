@@ -58,14 +58,26 @@ const EditReader = () => {
 
   const fetchReader = async () => {
     try {
-      const response = await api.get(`/readers/${id}`)
-      const reader = response.data
+      const response = await api.get(`/admin/readers/${id}`)
+      // Extract reader data from nested response structure
+      const reader = response.data.data || response.data
       
-      Object.keys(reader).forEach(key => {
-        if (key !== 'password') {
-          setValue(key, reader[key])
-        }
+      console.log('Fetched reader data:', reader) // Debug log
+      
+      // Set form values with proper field mapping
+      const formData = {
+        name: reader.name || '',
+        email: reader.email || '',
+        phone: reader.phone || '',
+        biography: reader.biography || '',
+        status: reader.status === 1 ? true : false
+      }
+      
+      // Set each form field
+      Object.keys(formData).forEach(key => {
+        setValue(key, formData[key])
       })
+      
     } catch (error) {
       console.error('Error fetching reader:', error)
       toast.error('Failed to fetch reader details')
@@ -82,7 +94,7 @@ const EditReader = () => {
         delete data.password
       }
       
-      await api.put(`/readers/${id}`, data)
+      await api.put(`/admin/readers/${id}`, data)
       toast.success('Reader updated successfully')
       navigate('/readers')
     } catch (error) {

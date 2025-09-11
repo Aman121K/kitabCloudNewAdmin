@@ -52,12 +52,25 @@ const EditSubCategory = () => {
 
   const fetchSubCategory = async () => {
     try {
-      const response = await api.get(`/subcategories/${id}`)
-      const subCategory = response.data
+      const response = await api.get(`/admin/subcategories/${id}`)
+      // Extract sub category data from nested response structure
+      const subCategory = response.data.data || response.data
       
-      Object.keys(subCategory).forEach(key => {
-        setValue(key, subCategory[key])
+      console.log('Fetched sub category data:', subCategory) // Debug log
+      
+      // Set form values with proper field mapping
+      const formData = {
+        name: subCategory.name || '',
+        category_id: subCategory.category_id || '',
+        description: subCategory.description || '',
+        status: subCategory.status === 1 ? true : false
+      }
+      
+      // Set each form field
+      Object.keys(formData).forEach(key => {
+        setValue(key, formData[key])
       })
+      
     } catch (error) {
       console.error('Error fetching sub category:', error)
       toast.error('Failed to fetch sub category details')

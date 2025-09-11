@@ -35,6 +35,7 @@ const EditUser = () => {
   const { id } = useParams()
   const [loading, setLoading] = useState(false)
   const [loadingUser, setLoadingUser] = useState(true)
+  const [loadingCountries, setLoadingCountries] = useState(true)
   const [countries, setCountries] = useState([])
 
   const {
@@ -63,15 +64,27 @@ const EditUser = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await api.get(`/users/${id}`)
-      const user = response.data
+      const response = await api.get(`/admin/users/${id}`)
+      // Extract user data from nested response structure
+      const user = response.data.data || response.data
       
-      // Set form values
-      Object.keys(user).forEach(key => {
-        if (key !== 'password') { // Don't set password for editing
-          setValue(key, user[key])
-        }
+      console.log('Fetched user data:', user) // Debug log
+      
+      // Set form values with proper field mapping
+      const formData = {
+        full_name: user.full_name || '',
+        email: user.email || '',
+        phone: user.phone || '',
+        country: user.country || '',
+        role: user.role || 2,
+        status: user.status === 1 ? true : false
+      }
+      
+      // Set each form field
+      Object.keys(formData).forEach(key => {
+        setValue(key, formData[key])
       })
+      
     } catch (error) {
       console.error('Error fetching user:', error)
       toast.error('Failed to fetch user details')
@@ -83,10 +96,17 @@ const EditUser = () => {
 
   const fetchCountries = async () => {
     try {
+      setLoadingCountries(true)
       const response = await api.get(API_ENDPOINTS.COUNTRIES)
-      setCountries(response.data || [])
+      // Ensure response.data is an array
+      const countriesData = Array.isArray(response.data) ? response.data : []
+      setCountries(countriesData)
     } catch (error) {
       console.error('Error fetching countries:', error)
+      // Set empty array as fallback
+      setCountries([])
+    } finally {
+      setLoadingCountries(false)
     }
   }
 
@@ -214,12 +234,20 @@ const EditUser = () => {
                       {...field}
                       label="Country"
                       error={!!errors.country}
+                      disabled={loadingCountries}
                     >
-                      {countries.map((country) => (
-                        <MenuItem key={country.id} value={country.name}>
-                          {country.name}
+                      {loadingCountries ? (
+                        <MenuItem disabled>
+                          <CircularProgress size={20} sx={{ mr: 1 }} />
+                          Loading countries...
                         </MenuItem>
-                      ))}
+                      ) : (
+                        Array.isArray(countries) && countries.map((country) => (
+                          <MenuItem key={country.id} value={country.name}>
+                            {country.name}
+                          </MenuItem>
+                        ))
+                      )}
                     </Select>
                   )}
                 />

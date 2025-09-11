@@ -54,14 +54,26 @@ const EditAuthor = () => {
 
   const fetchAuthor = async () => {
     try {
-      const response = await api.get(`/authors/${id}`)
-      const author = response.data
+      const response = await api.get(`/admin/authors/${id}`)
+      // Extract author data from nested response structure
+      const author = response.data.data || response.data
       
-      Object.keys(author).forEach(key => {
-        if (key !== 'password') {
-          setValue(key, author[key])
-        }
+      console.log('Fetched author data:', author) // Debug log
+      
+      // Set form values with proper field mapping
+      const formData = {
+        name: author.name || '',
+        email: author.email || '',
+        phone: author.phone || '',
+        biography: author.biography || '',
+        status: author.status === 1 ? true : false
+      }
+      
+      // Set each form field
+      Object.keys(formData).forEach(key => {
+        setValue(key, formData[key])
       })
+      
     } catch (error) {
       console.error('Error fetching author:', error)
       toast.error('Failed to fetch author details')
@@ -78,7 +90,7 @@ const EditAuthor = () => {
         delete data.password
       }
       
-      await api.put(`/authors/${id}`, data)
+      await api.put(`/admin/authors/${id}`, data)
       toast.success('Author updated successfully')
       navigate('/authors')
     } catch (error) {

@@ -80,7 +80,7 @@ const LanguageManagement = () => {
 
   const handleDelete = async (language) => {
     try {
-      await api.delete(`/languages/${language.id}`)
+      await api.delete(`/admin/languages/${language.id}`)
       await fetchLanguages()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const LanguageManagement = () => {
 
   const handleToggleStatus = async (languageId, newStatus) => {
     try {
-      await api.post(`/languages/${languageId}/status`, { status: newStatus })
+      await api.post(`/admin/languages/${languageId}/status`, { status: newStatus })
       await fetchLanguages()
       return Promise.resolve()
     } catch (error) {

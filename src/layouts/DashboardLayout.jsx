@@ -17,10 +17,12 @@ import {
   Menu as MenuIcon,
   AccountCircle,
   Logout,
-  Settings
+  Settings,
+  Home
 } from '@mui/icons-material'
 import { useAuth } from '../contexts/AuthContext'
 import Sidebar from '../components/layout/Sidebar'
+import Footer from '../components/layout/Footer'
 
 const drawerWidth = 280
 
@@ -71,19 +73,62 @@ const DashboardLayout = ({ children }) => {
             <MenuIcon />
           </IconButton>
           
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            KitabCloud Admin Panel
-          </Typography>
-
+          {/* Left side - Hamburger menu for mobile */}
           <IconButton
-            size="large"
-            onClick={handleMenu}
             color="inherit"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { xs: 'block', md: 'none' } }}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>
-              {user?.full_name?.charAt(0) || user?.name?.charAt(0) || 'A'}
-            </Avatar>
+            <MenuIcon />
           </IconButton>
+
+          {/* Right side - Logo and Home link */}
+          <Box sx={{ flexGrow: 1 }} />
+          
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {/* KitabCloud Logo */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box
+                sx={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: '50%',
+                  bgcolor: '#705ec8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: '0.875rem'
+                }}
+              >
+                KC
+              </Box>
+              <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#705ec8' }}>
+                KITABCLOUD
+              </Typography>
+            </Box>
+
+            {/* Home Link */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'pointer' }}>
+              <Home sx={{ fontSize: 20, color: '#705ec8' }} />
+              <Typography variant="body2" sx={{ color: '#705ec8', fontWeight: 500 }}>
+                Home
+              </Typography>
+            </Box>
+
+            {/* User Avatar */}
+            <IconButton
+              size="large"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <Avatar sx={{ width: 32, height: 32 }}>
+                {user?.full_name?.charAt(0) || user?.name?.charAt(0) || 'A'}
+              </Avatar>
+            </IconButton>
+          </Box>
           
           <Menu
             anchorEl={anchorEl}
@@ -145,15 +190,19 @@ const DashboardLayout = ({ children }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: 0, // Remove padding to let dashboard handle its own spacing
           width: { md: `calc(100% - ${drawerWidth}px)` },
           minHeight: '100vh',
-          bgcolor: 'background.default'
+          bgcolor: 'background.default',
+          pb: 10 // Add padding bottom to account for footer
         }}
       >
         <Toolbar />
         {children}
       </Box>
+
+      {/* Footer */}
+      <Footer />
     </Box>
   )
 }

@@ -80,7 +80,7 @@ const PublisherManagement = () => {
 
   const handleDelete = async (publisher) => {
     try {
-      await api.delete(`/publishers/${publisher.id}`)
+      await api.delete(`/admin/publishers/${publisher.id}`)
       await fetchPublishers()
       return Promise.resolve()
     } catch (error) {
@@ -91,7 +91,7 @@ const PublisherManagement = () => {
 
   const handleToggleStatus = async (publisherId, newStatus) => {
     try {
-      await api.post(`/publishers/${publisherId}/status`, { status: newStatus })
+      await api.post(`/admin/publishers/${publisherId}/status`, { status: newStatus })
       await fetchPublishers()
       return Promise.resolve()
     } catch (error) {
