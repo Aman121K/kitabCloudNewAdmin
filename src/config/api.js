@@ -2,8 +2,8 @@ import axios from 'axios'
 
 // API Configuration
 const API_CONFIG = {
-  BASE_URL: 'https://api-new.kitabcloud.se/api',
-  // BASE_URL: 'http://localhost:3002/api',
+  // BASE_URL: 'https://api-new.kitabcloud.se/api',
+  BASE_URL: 'http://localhost:3002/api',
   TIMEOUT: 10000, // 10 seconds
   HEADERS: {
     'Content-Type': 'application/json',
@@ -115,7 +115,10 @@ export const API_ENDPOINTS = {
   // Roles & Permissions
   ROLES: '/admin/roles',
   PERMISSIONS: '/admin/permissions',
-  ROLE_PERMISSIONS: '/admin/role-permissions'
+  ROLE_PERMISSIONS: '/admin/role-permissions',
+  
+  // Feedback
+  FEEDBACK: '/admin/feedback'
 }
 
 // Helper function to build status update endpoint

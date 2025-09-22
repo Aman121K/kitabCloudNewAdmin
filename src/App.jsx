@@ -32,6 +32,7 @@ import PodcastManagement from './pages/podcasts/PodcastManagement'
 import EpisodeManagement from './pages/episodes/EpisodeManagement'
 // import SubscriptionManagement from './pages/subscriptions/SubscriptionManagement'
 import RolePermissionManagement from './pages/roles/RolePermissionManagement'
+import FeedbackManagement from './pages/feedback/FeedbackManagement'
 
 // Individual Pages (Add/Edit)
 import AddUser from './pages/users/AddUser'
@@ -189,6 +190,9 @@ function App() {
 
                 {/* Role Permission Management */}
                 <Route path="/roles" element={<RolePermissionManagement />} />
+
+                {/* Feedback Management */}
+                <Route path="/feedback" element={<FeedbackManagement />} />
 
                 {/* Default redirect */}
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />

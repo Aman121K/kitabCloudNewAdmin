@@ -29,7 +29,8 @@ import {
   MenuBook,
   Apps,
   Campaign,
-  Schedule
+  Schedule,
+  Feedback
 } from '@mui/icons-material'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
@@ -178,6 +179,11 @@ const Sidebar = () => {
       children: [
         { title: 'List Podcasts', path: '/podcasts' }
       ]
+    },
+    {
+      title: 'Feedback Management',
+      icon: <Feedback />,
+      path: '/feedback'
     }
   ]
 
