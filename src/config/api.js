@@ -2,8 +2,8 @@ import axios from 'axios'
 
 // API Configuration
 const API_CONFIG = {
-  // BASE_URL: 'https://api-new.kitabcloud.se/api',
-  BASE_URL: 'http://localhost:3002/api',
+  BASE_URL: 'https://api-new.kitabcloud.se/api',
+  // BASE_URL: 'http://localhost:3002/api',
   TIMEOUT: 10000, // 10 seconds
   HEADERS: {
     'Content-Type': 'application/json',
